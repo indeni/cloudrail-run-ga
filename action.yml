@@ -15,14 +15,17 @@ inputs:
     description: 'The working directory to use'
     required: true
     default: '.'
+  cloud-account-id:
+    description: 'The identifier of the cloud account you have run the Terraform plan against.'
+    required: true
 runs:
   using: "composite"
   steps: 
     - run: docker pull indeni/cloudrail-cli
       shell: bash
     - run: docker run --rm -v $PWD:/src indeni/cloudrail-cli run --tf-plan /src/plan.out --directory /src \
-           --api-key ${{ inputs.cloudrail-api-key }} \
+           --api-key ${{ inputs.cloudrail-api-key }} --cloud-account-id ${{ inputs.cloud-account-id }} \
            --origin ci --build-link "https://github.com/indeni/cloudrail-demo/actions/runs/$GITHUB_RUN_ID"  \
-           --execution-source-identifier "$GITHUB_REF - $GITHUB_RUN_NUMBER"
+           --execution-source-identifier "$GITHUB_REF - $GITHUB_RUN_NUMBER" 
       working-directory: ${{ inputs.working-directory }}
       shell: bash
