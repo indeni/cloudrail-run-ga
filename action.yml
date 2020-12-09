@@ -1,6 +1,8 @@
 # action.yml
 name: 'Cloudrail run GitHub action'
 description: 'An easy way to run Cloudrail with a specific Terraform plan'
+icon: check
+color: blue
 inputs:
   tf-plan-file:
     description: 'The location of the plan.out file generated with "terraform plan -out=plan.out"'
