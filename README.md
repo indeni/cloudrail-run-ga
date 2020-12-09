@@ -1,5 +1,5 @@
 # cloudrail-run-ga
-GitHub action for including Indeni Clourdrail in a workflow.
+GitHub action for including Indeni Cloudrail in a workflow.
 
 # Instructions
 This action requires several important inputs:
