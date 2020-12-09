@@ -30,7 +30,7 @@ jobs:
       - run: stat plan.out
         working-directory: test
           
-      - uses: ./action 
+      - uses: ./
         with:
           tf-plan-file: plan.out
           cloudrail-api-key: ${{ secrets.CLOUDRAIL_API_KEY }}
