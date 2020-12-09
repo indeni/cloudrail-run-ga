@@ -8,7 +8,7 @@ This action requires several important inputs:
 3. An identifier of the cloud account you want to run Cloudrail against (if you have more than one added to Cloudrail).
 
 The straight-forward way of using this action is:
-```
+```yaml
       - uses: indeni/cloudrail-run-ga@v1.0
         with:
           tf-plan-file: plan.out # This was created in a "terraform plan" step
