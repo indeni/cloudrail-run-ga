@@ -1,0 +1,16 @@
+# action.yml
+name: 'Cloudrail run GitHub action'
+description: 'An easy way to run Cloudrail with a specific Terraform plan'
+inputs:
+  tf-plan-file:
+    description: 'The location of the plan.out file generated with "terraform plan -out=plan.out"'
+    required: true
+  cloudrail-api-key:
+    description: 'Your Cloudrail API key'
+    required: true
+runs:
+  using: "composite"
+  steps: 
+    - run: docker pull indeni/cloudrail-cli
+    - run: cp ${{ inputs.tf-plan-file }} ./plan.out
+    - run: docker run --rm -v $PWD:/src indeni/cloudrail-cli run --tf-plan /src/plan.out --directory /src --api-key ${{ inputs.cloudrail-api-key }}
