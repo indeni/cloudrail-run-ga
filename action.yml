@@ -24,6 +24,6 @@ runs:
     - run: docker pull indeni/cloudrail-cli
       shell: bash
 
-    - run: docker run --rm -v $PWD:/src indeni/cloudrail-cli run --tf-plan ${{ inputs.tf-plan-file}} --directory  ${{ inputs.working-directory}} --api-key ${{ inputs.cloudrail-api-key }} --cloud-account-id ${{ inputs.cloud-account-id }} --origin ci --build-link "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"  --execution-source-identifier "$GITHUB_REF - $GITHUB_RUN_NUMBER" --output-file "cloudrail_results.txt" --auto-approve
+    - run: docker run --rm -v $PWD:/data indeni/cloudrail-cli run --tf-plan ${{ inputs.tf-plan-file}} --directory . --api-key ${{ inputs.cloudrail-api-key }} --cloud-account-id ${{ inputs.cloud-account-id }} --origin ci --build-link "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"  --execution-source-identifier "$GITHUB_REF - $GITHUB_RUN_NUMBER" --output-file "cloudrail_results.txt" --auto-approve
       working-directory: ${{ inputs.working-directory }}
       shell: bash
