@@ -34,7 +34,7 @@ jobs:
         with:
           tf-plan-file: plan.out
           cloudrail-api-key: ${{ secrets.CLOUDRAIL_API_KEY }}
-          cloud-account-id: 473085186055
+          cloud-account-id: 154724799477
           working-directory: test # Note, this is not part of the GitHub action syntax, but a parameter of the action
 
       - name: Upload SARIF file
