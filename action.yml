@@ -23,6 +23,6 @@ runs:
   steps: 
     - run: docker pull indeni/cloudrail-cli
       shell: bash
-    - run: docker run --rm -v $PWD:/src indeni/cloudrail-cli run --tf-plan /src/plan.out --directory /src --api-key ${{ inputs.cloudrail-api-key }} --cloud-account-id ${{ inputs.cloud-account-id }} --origin ci --build-link "https://github.com/indeni/cloudrail-demo/actions/runs/$GITHUB_RUN_ID"  --execution-source-identifier "$GITHUB_REF - $GITHUB_RUN_NUMBER" 
+    - run: docker run --rm -v $PWD:/src indeni/cloudrail-cli run --tf-plan /src/plan.out --directory /src --api-key ${{ inputs.cloudrail-api-key }} --cloud-account-id ${{ inputs.cloud-account-id }} --origin ci --build-link "https://github.com/indeni/cloudrail-demo/actions/runs/$GITHUB_RUN_ID"  --execution-source-identifier "$GITHUB_REF - $GITHUB_RUN_NUMBER"  --auto-approve
       working-directory: ${{ inputs.working-directory }}
       shell: bash

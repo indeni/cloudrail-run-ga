@@ -1,0 +1,38 @@
+name: test-action 
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: v0.13.2
+      
+      - run: terraform init
+        working-directory: test
+      - run: terraform plan -out=plan.out
+        working-directory: test
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      # Confirm we have the plan file
+      - run: stat plan.out
+        working-directory: test
+          
+      - uses: ./
+        with:
+          tf-plan-file: plan.out
+          cloudrail-api-key: ${{ secrets.CLOUDRAIL_API_KEY }}
+          cloud-account-id: 154724799477
+          working-directory: test # Note, this is not part of the GitHub action syntax, but a parameter of the action
