@@ -11,7 +11,7 @@
               "id": "public_access_security_groups_ssh_port_rule",
               "name": "Ensure no used security groups allow ingress from 0.0.0.0/0 or ::/0 to port 22 (SSH)",
               "shortDescription": {
-                "text": "Exposing resources to the Internet is generally inadvisable, especially on a known port like 22 (SSH)."
+                "text": "Ensure no used security groups allow ingress from 0.0.0.0/0 or ::/0 to port 22 (SSH)"
               },
               "fullDescription": {
                 "text": "Exposing resources to the Internet is generally inadvisable, especially on a known port like 22 (SSH)."
@@ -27,7 +27,7 @@
               "id": "public_access_security_groups_rdp_port_rule",
               "name": "Ensure no used security groups allow ingress from 0.0.0.0/0 or ::/0 to port 3389 (RDP)",
               "shortDescription": {
-                "text": "Exposing resources to the Internet is generally inadvisable, especially on a known port like 3389 (RDP)."
+                "text": "Ensure no used security groups allow ingress from 0.0.0.0/0 or ::/0 to port 3389 (RDP)"
               },
               "fullDescription": {
                 "text": "Exposing resources to the Internet is generally inadvisable, especially on a known port like 3389 (RDP)."
