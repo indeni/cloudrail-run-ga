@@ -9,7 +9,7 @@ This action requires several important inputs:
 
 The straight-forward way of using this action is:
 ```yaml
-      - uses: indeni/cloudrail-run-ga@v1.0
+      - uses: indeni/cloudrail-run-ga@v1.1
         with:
           tf-plan-file: plan.out # This was created in a "terraform plan" step
           cloudrail-api-key: ${{ secrets.CLOUDRAIL_API_KEY }} # This requires registration to Indeni Cloudrail's SaaS
@@ -17,3 +17,7 @@ The straight-forward way of using this action is:
 ```
 
 To see an example of how to use this action in a workflow, please take a look at https://github.com/indeni/cloudrail-demo/blob/master/.github/workflows/cloudrail-demo.yml
+
+# Output
+
+By default, this action will output in SARIF format, which is supported by GitHub, to list the security violations found by Cloudrail.
