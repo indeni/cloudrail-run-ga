@@ -39,5 +39,8 @@ jobs:
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v1
+        # Remember that if issues are found, Cloudrail return non-zero exit code, so the if: always()
+        # is needed to ensure the SARIF file is uploaded
+        if: always() 
         with:
           sarif_file: cloudrail_results.sarif
