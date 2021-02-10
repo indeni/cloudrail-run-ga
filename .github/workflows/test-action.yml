@@ -43,4 +43,4 @@ jobs:
         # is needed to ensure the SARIF file is uploaded
         if: always() 
         with:
-          sarif_file: cloudrail_results.sarif
+          sarif_file: test/cloudrail_results.sarif
