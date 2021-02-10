@@ -10,7 +10,7 @@ inputs:
   cloudrail-api-key:
     description: 'Your Cloudrail API key'
     required: true
-  working-directory: 
+  working-directory:
     description: 'The working directory to use'
     required: true
     default: '.'
@@ -20,15 +20,15 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - run: docker pull indeni/cloudrail-cli
-    shell: bash
+    - run: docker pull indeni/cloudrail-cli
+      shell: bash
 
-    # Note, we need "--user root" because otherwise we run into permission issues: https://stackoverflow.com/questions/58921029/github-actions-cannot-write-to-file-permission-denied-inside-the-docker-contai
-  - run: docker run --rm --user root -v $PWD:/data:rw indeni/cloudrail-cli run --tf-plan ${{ inputs.tf-plan-file}} --directory . --api-key ${{ inputs.cloudrail-api-key }} --cloud-account-id ${{ inputs.cloud-account-id }} --origin ci --build-link "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"  --execution-source-identifier "$GITHUB_REF - $GITHUB_RUN_NUMBER" --output-file "cloudrail_results.sarif" --output-format sarif --auto-approve
-    working-directory: ${{ inputs.working-directory }}
-    shell: bash
+      # Note, we need "--user root" because otherwise we run into permission issues: https://stackoverflow.com/questions/58921029/github-actions-cannot-write-to-file-permission-denied-inside-the-docker-contai
+    - run: docker run --rm --user root -v $PWD:/data:rw indeni/cloudrail-cli run --tf-plan ${{ inputs.tf-plan-file}} --directory . --api-key ${{ inputs.cloudrail-api-key }} --cloud-account-id ${{ inputs.cloud-account-id }} --origin ci --build-link "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"  --execution-source-identifier "$GITHUB_REF - $GITHUB_RUN_NUMBER" --output-file "cloudrail_results.sarif" --output-format sarif --auto-approve
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
 
-  - name: Upload SARIF file
-    uses: github/codeql-action/upload-sarif@v1
-    with:
-      sarif_file: cloudrail_results.sarif
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: cloudrail_results.sarif
