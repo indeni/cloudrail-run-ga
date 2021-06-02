@@ -27,7 +27,7 @@ runs:
         INPUT_CLOUD_ACCOUNT_ID='${{ inputs.cloud-account-id}}'
         INPUT_CLOUD_ACCOUNT_ID_NO_WHITESPACE="$(echo -e "${INPUT_CLOUD_ACCOUNT_ID}" | tr -d '[:space:]')"
 
-        if ["$INPUT_CLOUD_ACCOUNT_ID_NO_WHITESPACE" != ""]; then
+        if [[ "$INPUT_CLOUD_ACCOUNT_ID_NO_WHITESPACE" != "" ]]; then
           echo Received cloud account id
           CLOUD_ARGUMENT="--cloud-account-id $INPUT_CLOUD_ACCOUNT_ID_NO_WHITESPACE"
         else
