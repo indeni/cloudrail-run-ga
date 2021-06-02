@@ -25,10 +25,13 @@ runs:
 
     - run: |
         if ["${{ inputs.cloud-account-id}}" != ""]; then
+          echo Received cloud account id
           CLOUD_ARGUMENT="--cloud-account-id ${{ inputs.cloud-account-id}}"
         else
+          echo No cloud account
           CLOUD_ARGUMENT="--no-cloud-account"
         fi
+        echo $CLOUD_ARGUMENT
 
         # Note, we need "--user root" because otherwise we run into permission issues: https://stackoverflow.com/questions/58921029/github-actions-cannot-write-to-file-permission-denied-inside-the-docker-contai
         docker run --rm --user root -v $PWD:/data:rw indeni/cloudrail-cli run --tf-plan ${{ inputs.tf-plan-file}} --api-key ${{ inputs.cloudrail-api-key }} ${CLOUD_ARGUMENT} --origin ci --build-link "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"  --execution-source-identifier "$GITHUB_REF - $GITHUB_RUN_NUMBER" --output-file "cloudrail_results.sarif" --output-format sarif --auto-approve
