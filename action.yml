@@ -26,9 +26,9 @@ runs:
 
     - run: |
         if ["${{ inputs.cloud-account-id}}" != ""]; then
-          CLOUD_ARGUMENT="--cloud-account-id ${{ inputs.cloud-account-id}}"
+          export CLOUD_ARGUMENT="--cloud-account-id ${{ inputs.cloud-account-id}}"
         else
-          CLOUD_ARGUMENT="--no-cloud-account"
+          export CLOUD_ARGUMENT="--no-cloud-account"
         fi
       shell: bash
 
