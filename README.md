@@ -17,3 +17,19 @@ The straight-forward way of using this action is:
 ```
 
 To see an example of how to use this action in a workflow, please take a look at https://github.com/indeni/cloudrail-demo/blob/master/.github/workflows/cloudrail-demo.yml
+
+# Output
+
+By default, this action will output in SARIF format, which is supported by GitHub, to list the security violations found by Cloudrail. To upload the SARIF into the GitHub system for analysis, use this:
+
+```yaml
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v1
+        # Remember that if issues are found, Cloudrail return non-zero exit code, so the if: always()
+        # is needed to ensure the SARIF file is uploaded
+        if: always() 
+        with:
+          sarif_file: cloudrail_results.sarif
+```
+
+Note that it's not possible for the action to it automatically right now, due to the lack of [composite action support](https://github.com/actions/runner/issues/646).
