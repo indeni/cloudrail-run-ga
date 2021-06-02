@@ -1,4 +1,3 @@
-# action.yml
 name: 'Cloudrail run GitHub action'
 description: 'An easy way to run Cloudrail with a specific Terraform plan'
 branding:
@@ -11,7 +10,7 @@ inputs:
   cloudrail-api-key:
     description: 'Your Cloudrail API key'
     required: true
-  working-directory: 
+  working-directory:
     description: 'The working directory to use'
     required: true
     default: '.'
@@ -20,7 +19,7 @@ inputs:
     required: true
 runs:
   using: "composite"
-  steps: 
+  steps:
     - run: docker pull indeni/cloudrail-cli
       shell: bash
 
