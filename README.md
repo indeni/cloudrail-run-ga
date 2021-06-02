@@ -9,7 +9,7 @@ This action requires several important inputs:
 
 The straight-forward way of using this action is:
 ```yaml
-      - uses: indeni/cloudrail-run-ga@v1.1
+      - uses: indeni/cloudrail-run-ga@v1.2
         with:
           tf-plan-file: plan.out # This was created in a "terraform plan" step
           cloudrail-api-key: ${{ secrets.CLOUDRAIL_API_KEY }} # This requires registration to Indeni Cloudrail's SaaS
@@ -18,7 +18,7 @@ The straight-forward way of using this action is:
 
 NOTE: If you're using Cloudrail in Static Analysis mode, without a cloud account, you can supply an empty `cloud-account-id` like so:
 ```yaml
-      - uses: indeni/cloudrail-run-ga@v1.0
+      - uses: indeni/cloudrail-run-ga@v1.2
         with:
           tf-plan-file: plan.out # This was created in a "terraform plan" step
           cloudrail-api-key: ${{ secrets.CLOUDRAIL_API_KEY }} # This requires registration to Indeni Cloudrail's SaaS
