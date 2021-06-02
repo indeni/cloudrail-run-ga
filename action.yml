@@ -24,9 +24,12 @@ runs:
       shell: bash
 
     - run: |
-        if ["${{ inputs.cloud-account-id}}" != ""]; then
+        INPUT_CLOUD_ACCOUNT_ID='${{ inputs.cloud-account-id}}'
+        INPUT_CLOUD_ACCOUNT_ID_NO_WHITESPACE="$(echo -e "${INPUT_CLOUD_ACCOUNT_ID}" | tr -d '[:space:]')"
+
+        if ["$INPUT_CLOUD_ACCOUNT_ID_NO_WHITESPACE" != ""]; then
           echo Received cloud account id
-          CLOUD_ARGUMENT="--cloud-account-id ${{ inputs.cloud-account-id}}"
+          CLOUD_ARGUMENT="--cloud-account-id $INPUT_CLOUD_ACCOUNT_ID_NO_WHITESPACE"
         else
           echo No cloud account
           CLOUD_ARGUMENT="--no-cloud-account"
