@@ -23,6 +23,19 @@ runs:
     - run: docker pull indeni/cloudrail-cli
       shell: bash
 
+    # The following two steps are from: https://stackoverflow.com/a/64210623/3830413
+    - name: Get branch name (merge)
+      if: github.event_name != 'pull_request'
+      shell: bash
+      run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
+      working-directory: .
+
+    - name: Get branch name (pull request)
+      if: github.event_name == 'pull_request'
+      shell: bash
+      run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF} | tr / -)" >> $GITHUB_ENV
+      working-directory: .
+
     - run: |
         INPUT_CLOUD_ACCOUNT_ID='${{ inputs.cloud-account-id}}'
         INPUT_CLOUD_ACCOUNT_ID_NO_WHITESPACE="$(echo -e "${INPUT_CLOUD_ACCOUNT_ID}" | tr -d '[:space:]')"
@@ -38,7 +51,7 @@ runs:
           --tf-plan ${{ inputs.tf-plan-file}} \
           --api-key ${{ inputs.cloudrail-api-key }} \
           ${CLOUD_ARGUMENT} \
-          --origin ci --build-link "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"  --execution-source-identifier "$GITHUB_REF - $GITHUB_RUN_NUMBER" \
+          --origin ci --build-link "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"  --execution-source-identifier "${{ env.BRANCH_NAME }} - $GITHUB_RUN_NUMBER" \
           --output-file "cloudrail_results.sarif" --output-format sarif --base-dir ${{ inputs.working-directory }} \
           --auto-approve
       shell: bash
