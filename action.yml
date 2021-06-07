@@ -24,23 +24,8 @@ runs:
       shell: bash
 
     # The following two steps are from: https://stackoverflow.com/a/64210623/3830413
-    - name: Get branch name (merge)
-      if: github.event_name != 'pull_request'
-      shell: bash
-      run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
-      working-directory: .
-
-    - name: Get branch name (pull request)
-      if: github.event_name == 'pull_request'
-      shell: bash
-      run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF} | tr / -)" >> $GITHUB_ENV
-      working-directory: .
-
-    - name: Print branch name
-      run: echo Determined branch name to be ${{ env.BRANCH_NAME }} 
-      shell: bash
-
     - run: |
+        # Determine whether a cloud account is being used
         INPUT_CLOUD_ACCOUNT_ID='${{ inputs.cloud-account-id}}'
         INPUT_CLOUD_ACCOUNT_ID_NO_WHITESPACE="$(echo -e "${INPUT_CLOUD_ACCOUNT_ID}" | tr -d '[:space:]')"
 
@@ -50,12 +35,20 @@ runs:
           CLOUD_ARGUMENT="--cloud-account-id $INPUT_CLOUD_ACCOUNT_ID_NO_WHITESPACE"
         fi
 
+        # Determine branch name
+        if [ -z "GITHUB_HEAD_REF" ]; then
+          BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)
+        else
+          BRANCH_NAME=$(echo ${GITHUB_HEAD_REF} | tr / -)
+        fi
+        echo Determined branch name to be ${BRANCH_NAME}
+
         # Note, we need "--user root" because otherwise we run into permission issues: https://stackoverflow.com/questions/58921029/github-actions-cannot-write-to-file-permission-denied-inside-the-docker-contai
         docker run --rm --user root -v $PWD:/data:rw indeni/cloudrail-cli run \
           --tf-plan ${{ inputs.tf-plan-file}} \
           --api-key ${{ inputs.cloudrail-api-key }} \
           ${CLOUD_ARGUMENT} \
-          --origin ci --build-link "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"  --execution-source-identifier "${{ env.BRANCH_NAME }} - $GITHUB_RUN_NUMBER" \
+          --origin ci --build-link "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"  --execution-source-identifier "${BRANCH_NAME} - $GITHUB_RUN_NUMBER" \
           --output-file "cloudrail_results.sarif" --output-format sarif --base-dir ${{ inputs.working-directory }} \
           --auto-approve
       shell: bash
