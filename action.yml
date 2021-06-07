@@ -36,6 +36,10 @@ runs:
       run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF} | tr / -)" >> $GITHUB_ENV
       working-directory: .
 
+    - name: Print branch name
+      run: echo Determined branch name to be ${{ env.BRANCH_NAME }} 
+      shell: bash
+
     - run: |
         INPUT_CLOUD_ACCOUNT_ID='${{ inputs.cloud-account-id}}'
         INPUT_CLOUD_ACCOUNT_ID_NO_WHITESPACE="$(echo -e "${INPUT_CLOUD_ACCOUNT_ID}" | tr -d '[:space:]')"
